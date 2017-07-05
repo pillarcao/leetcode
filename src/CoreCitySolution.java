@@ -6,30 +6,14 @@
  * <br>
  * 求图的连通性（通过floyd 算法求得除过考察点最短路径的邻接矩阵，如果任意i，j（不包括考察点）的最短路〉MAX，说明图不联通 ）
  */
-public class GraphUnicom {
+public class CoreCitySolution {
 
 	private static final int MAX = 10;
-
-	
-	public static int [][] cloneArr(int a[][])
-	{
-		int [][] clone=new int[a.length][a.length];
-		for (int i = 0; i < clone.length ; i++) {
-			for (int j = 0; j < clone.length ; j++) 
-			{
-				clone[i][j]=a[i][j];
-			}
-			
-		}
-
-		
-		return clone;
-	}
 
 	public static void GetGraphUnicomV(int g[][]) {
 		for (int i = 0; i < g.length; i++) {
 			
-			if(GraphUnicom.IsGraphUnicom(i,g))System.out.println(i);
+			if(Floyed(i,g))System.out.println(i);
 
 		}
 
@@ -42,18 +26,17 @@ public class GraphUnicom {
 	 * @return 是否是关键节点（关键节点删除后会导致图不联通）
 	 */
 	
-	public static boolean IsGraphUnicom(int v,int g[][]) {
+	public static boolean Floyed(int v,int g[][]) {
 		boolean result = false;
-		int[][] t = cloneArr(g);
-		for (int i = 0; i < t.length; i++) {
+		for (int i = 0; i < g.length; i++) {
 			if(i==v)continue;	
-			for (int j = 0; j < t.length; j++) {
+			for (int j = 0; j < g.length; j++) {
 //				System.out.print(g[i][j] + ",");
 				if(j==v)continue;				
-				for (int k = 0; k < t.length; k++) {
+				for (int k = 0; k < g.length; k++) {
 					if(k==v)continue;
-					if (t[i][k] + t[k][j] < t[i][j]) {
-						t[i][j] = t[i][k] + t[k][j];
+					if (g[i][k] + g[k][j] < g[i][j]) {
+						g[i][j] = g[i][k] + g[k][j];
 					}
 
 				}
@@ -62,10 +45,10 @@ public class GraphUnicom {
 //			System.out.println();
 		}
 
-		for (int i = 0; i < t.length ; i++) {
-			for (int j = 0; j < t.length ; j++) {
+		for (int i = 0; i < g.length ; i++) {
+			for (int j = 0; j < g.length ; j++) {
 				if(v==i || j==v)continue;
-				if(t[i][j]>=MAX)result=true;
+				if(g[i][j]>=MAX)result=true;
 //				System.out.print(t[i][j] + ",");
 			}
 //			System.out.println();
@@ -91,7 +74,7 @@ public class GraphUnicom {
 		    
 			for(int n=0;n<6;n++)
 			{
-				System.out.println("city: "+n+ " is core city? "+IsGraphUnicom(n,b));
+				System.out.println("city: "+n+ " is core city? "+Floyed(n,b));
 			   // System.out.println(n);
               // System.out.println(GraphUnicom.IsGraphUnicom(n,a));
 			}
